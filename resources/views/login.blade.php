@@ -35,16 +35,16 @@
 
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-num">12K+</div>
+                    <div class="stat-num"></div>
                     <div class="stat-label">Courses</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-num">98K+</div>
+                    <div class="stat-num"></div>
                     <div class="stat-label">Students</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-num">500+</div>
-                    <div class="stat-label">Instructors</div>
+                    <div class="stat-num"></div>
+                    <div class="stat-label"></div>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\presence;
 use App\Models\User;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
@@ -13,8 +14,9 @@ class AuthController extends Controller
 {
     //  login  view
     public function dash() {
-    $courses = Course::all();
-    return view('Dashboardstudent', compact('courses'));
+    $users = User::all();
+
+    return view('Dashboardstudent', compact('users'));
 }
 
 
@@ -41,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $req->email)->first();
-
+        
         if ($user && Hash::check($req->password, $user->password)) {
             Auth::login($user);
             return redirect()->route('dashboard');
@@ -54,27 +56,41 @@ class AuthController extends Controller
 
 
     // registerpostt
-     public function registerPost(Request $req)
-    {
-        // Validate the input
-        $req->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
+public function registerPost(Request $req)
+{
+    $req->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name'  => 'required|string|max:255',
+        'email'      => 'required|email|unique:users,email',
+        'password'   => 'required|min:6|confirmed',
+        'role'       => 'required|in:admin,student,formateur',
+        'terms'      => 'accepted',
+    ]);
 
-        // Create the user
-        $user = User::create([
-            'name' => $req->name,
-            'email' => $req->email,
-            'password' => Hash::make($req->password),
-        ]);
+    // ✅ Create the user
+    $user = User::create([
+        'name'     => $req->first_name . ' ' . $req->last_name,
+        'email'    => $req->email,
+        'password' => Hash::make($req->password),
+        'role'     => $req->role,
+    ]);
 
-        
-        Auth::login($user);
-   
-        return redirect()->route('login')->with('success', 'Registration successful!');
+    
+    if ($user->role === 'student') {
+        presence::create([
+            'email'  => $user->email,
+            'name'   => $user->name,
+            'statut' => 'present', // default value
+        ]);
     }
+
+    // Optionally, log the user in after registration
+    Auth::login($user);
+
+    return redirect()->route('dashboard')->with('success', 'User created successfully!');
+}
+
+
 
     //logout
     public function logout()

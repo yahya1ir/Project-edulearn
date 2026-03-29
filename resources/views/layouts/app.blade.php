@@ -255,20 +255,35 @@
 
     <nav class="sidebar-nav">
         <div class="nav-section-label">Main</div>
-        <a href="#" class="nav-item active">
+        <a href="dash" class="nav-item active">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             Dashboard
         </a>
+
+        <!-- "Trainings" → "Emploi" with a briefcase/job icon -->
         <a href="#" class="nav-item">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            Trainings
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                <line x1="12" y1="12" x2="12" y2="12"/>
+                <path d="M2 13h20"/>
+            </svg>
+            Schedule
             <span class="nav-badge">24</span>
         </a>
-        <a href="#" class="nav-item">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Sessions
+
+        <!-- "Sessions" → "Absence" with a user-x / absence icon -->
+        <a href="absence" class="nav-item">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <line x1="17" y1="8" x2="23" y2="14"/>
+                <line x1="23" y1="8" x2="17" y2="14"/>
+            </svg>
+            Absence
             <span class="nav-badge">3</span>
         </a>
+
         <a href="#" class="nav-item">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Blog
@@ -288,8 +303,8 @@
     <div class="sidebar-user">
         <div class="user-avatar">{{ strtoupper(substr(auth()->user()->first_name ?? 'U', 0, 1)) }}</div>
         <div class="user-info">
-            <div class="user-name">{{ auth()->user()->first_name ?? 'User' }} {{ auth()->user()->last_name ?? '' }}</div>
-            <div class="user-role">{{ ucfirst(auth()->user()->role ?? 'Student') }}</div>
+            <div class="user-name">{{ auth()->user()->name}}</div>
+            <div class="user-role">{{ auth()->user()->role }}</div>
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf

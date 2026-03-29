@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════
-   HERO
+   ROLE SELECT — styled to match EduLearn dark theme
 ══════════════════════════════════════ */
 .hero {
     position: relative;
@@ -54,7 +54,7 @@
     margin: 0 0 0.5rem 0;
 }
 .hero-title span {
-    background: linear-gradient(135deg, var(--purple-400), var(--accent));
+     color: white;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -251,220 +251,253 @@
     transition: color 0.2s;
 }
 .see-all:hover { color: var(--purple-300); }
-
-/* ══════════════════════════════════════
-   COURSES GRID
-══════════════════════════════════════ */
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.1rem;
-    margin-bottom: 2rem;
-}
-
-.course-card {
-    padding: 1.4rem 1.5rem;
-    border-radius: 18px;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+/* Wrapper: make it position:relative so the arrow pseudo-element
+   and the focus-ring can live inside it */
+.input-wrap.select-wrap {
     position: relative;
-    overflow: hidden;
+    cursor: pointer;
 }
-.course-card::before {
+
+/* Hide the browser's native arrow */
+.input-wrap.select-wrap select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Inherit the card's font & color system */
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--white, #f3e8ff);
+
+    /* Transparent so the .input-wrap background shows through */
+    background: transparent;
+    border: none;
+    outline: none;
+
+    /* Leave room on the right for the custom arrow */
+    padding-right: 2.4rem;
+    padding-left: 0.25rem;
+
+    /* Full-height clickable area */
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Placeholder / unselected state */
+.input-wrap.select-wrap select:invalid,
+.input-wrap.select-wrap select option[value=""] {
+    color: var(--muted, rgba(200,180,255,0.45));
+}
+
+/* ── Custom chevron arrow ── */
+.input-wrap.select-wrap::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--purple-600), var(--accent));
-    opacity: 0;
-    transition: opacity 0.22s;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid rgba(168,85,247,0.6);
+    pointer-events: none;
+    transition: transform 0.2s ease, border-top-color 0.2s ease;
 }
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 48px rgba(0,0,0,0.4);
-}
-.course-card:hover::before { opacity: 1; }
 
-.course-header {
+/* Rotate arrow while the select is focused/open */
+.input-wrap.select-wrap:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+    border-top-color: rgba(232,121,249,0.9);
+}
+
+/* ── Focus glow on the wrapper ── */
+.input-wrap.select-wrap:focus-within {
+    border-color: rgba(168,85,247,0.55);
+    box-shadow:
+        0 0 0 3px rgba(168,85,247,0.18),
+        inset 0 0 12px rgba(139,60,247,0.08);
+    background: rgba(139,60,247,0.12);
+}
+
+/* ── Dropdown <option> elements ──
+   Native <option> styling is limited to background + color,
+   but we can at least make it legible in every OS */
+.input-wrap.select-wrap select option {
+    background: #1a0a2e;           /* deep dark purple — avoids white OS default */
+    color: #e9d5ff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.input-wrap.select-wrap select option:checked,
+.input-wrap.select-wrap select option:hover {
+    background: rgba(139,60,247,0.35);
+    color: #f3e8ff;
+}
+
+/* Disabled placeholder option */
+.input-wrap.select-wrap select option[disabled] {
+    color: rgba(200,180,255,0.35);
+}
+
+/* ══════════════════════════════════════
+   ROLE BADGE PILLS
+══════════════════════════════════════ */
+.role-badges {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-}
-.course-icon {
-    width: 46px; height: 46px;
-    border-radius: 13px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    background: rgba(168,85,247,0.1);
-}
-.course-price {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--purple-400), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    white-space: nowrap;
-}
-.course-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.35;
-}
-.course-idea {
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.5;
-    margin-top: 3px;
-}
-.course-topics {
-    display: flex;
+    gap: 0.45rem;
+    margin-top: 0.6rem;
     flex-wrap: wrap;
-    gap: 0.4rem;
-}
-.course-topic {
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 99px;
-    background: rgba(168,85,247,0.1);
-    border: 1px solid rgba(168,85,247,0.18);
-    color: var(--purple-300);
-    white-space: nowrap;
 }
 
-/* Course Footer */
-.course-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba(168,85,247,0.1);
-    margin-top: auto;
-    gap: 0.5rem;
-}
-
-/* Course Action Buttons */
-.course-actions {
-    display: flex;
-    gap: 0.4rem;
-    align-items: center;
-    flex-shrink: 0;
-}
-.course-btn {
+.role-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.3rem 0.65rem;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
+    padding: 0.24rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    /* Dim by default */
+    opacity: 0.28;
+    filter: grayscale(40%);
+    transform: scale(0.96);
+    transition:
+        opacity 0.22s ease,
+        transform 0.22s ease,
+        filter 0.22s ease,
+        box-shadow 0.22s ease;
+
     border: 1px solid transparent;
+    cursor: default;
+    user-select: none;
+}
+
+/* Active (selected) state — JS adds this class */
+.role-badge.active {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.07);
+}
+
+/* ── Admin — purple ── */
+.role-badge.badge-admin {
+    background: rgba(139,60,247,0.12);
+    border-color: rgba(139,60,247,0.35);
+    color: #c084fc;
+}
+.role-badge.badge-admin.active {
+    background: rgba(139,60,247,0.22);
+    border-color: rgba(168,85,247,0.6);
+    box-shadow: 0 0 10px rgba(139,60,247,0.35);
+}
+
+/* ── Student — emerald ── */
+.role-badge.badge-student {
+    background: rgba(34,197,94,0.08);
+    border-color: rgba(34,197,94,0.3);
+    color: #4ade80;
+}
+.role-badge.badge-student.active {
+    background: rgba(34,197,94,0.16);
+    border-color: rgba(34,197,94,0.55);
+    box-shadow: 0 0 10px rgba(34,197,94,0.28);
+}
+
+/* ── Formateur — sky blue ── */
+.role-badge.badge-formateur {
+    background: rgba(59,130,246,0.08);
+    border-color: rgba(59,130,246,0.3);
+    color: #60a5fa;
+}
+.role-badge.badge-formateur.active {
+    background: rgba(59,130,246,0.16);
+    border-color: rgba(59,130,246,0.55);
+    box-shadow: 0 0 10px rgba(59,130,246,0.28);
+}
+
+
+
+
+
+/* ══════════════════════════════════════
+   DELETE BUTTON — users table
+══════════════════════════════════════ */
+.ut-btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.85rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 8px;
+    color: #f87171;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
     white-space: nowrap;
 }
-.course-btn-edit {
-    background: rgba(168,85,247,0.1);
-    border-color: rgba(168,85,247,0.2);
-    color: var(--purple-300);
-}
-.course-btn-edit:hover {
-    background: rgba(168,85,247,0.22);
-    border-color: rgba(168,85,247,0.45);
-    color: #e9d5ff;
-    transform: translateY(-1px);
-}
-.course-btn-delete {
-    background: rgba(248,113,113,0.08);
-    border-color: rgba(248,113,113,0.18);
-    color: #f87171;
-}
-.course-btn-delete:hover {
-    background: rgba(248,113,113,0.18);
-    border-color: rgba(248,113,113,0.4);
+
+.ut-btn-delete:hover {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.5);
     color: #fca5a5;
     transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2);
 }
 
-.no-courses {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 48px;
-    color: var(--muted);
+.ut-btn-delete:active {
+    transform: translateY(0);
+    box-shadow: none;
+    background: rgba(239, 68, 68, 0.25);
 }
 
-/* ══════════════════════════════════════
-   FLOATING ADD BUTTON
-══════════════════════════════════════ */
-.fab-add {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple-600), var(--accent));
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 8px 24px rgba(107,33,200,0.45);
-    transition: all 0.25s ease;
-    z-index: 100;
-}
-.fab-add:hover {
-    transform: scale(1.1) rotate(90deg);
-    box-shadow: 0 12px 32px rgba(107,33,200,0.6);
+.ut-btn-delete svg {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
 }
 
-/* ══════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════ */
-@media (max-width: 1100px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { display: none; }
-    .courses-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-}
-@media (max-width: 600px) {
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .hero { padding: 1.5rem; }
-    .courses-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 400px) {
-    .stats-row { grid-template-columns: 1fr; }
+.ut-btn-delete:hover svg {
+    transform: scale(1.15);
 }
 
-.course-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.65rem;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    cursor: pointer;           /* ← add this */
-    font-family: inherit;      /* ← add this */
-    background-clip: unset;    /* ← add this (prevents gradient text leaking) */
-    -webkit-text-fill-color: unset; /* ← add this */
+/* ── Responsive: icon-only on small screens ── */
+.ut-btn-delete-label {
+    display: inline;
+}
+
+@media (max-width: 768px) {
+    .ut-btn-delete {
+        padding: 0.4rem;
+        border-radius: 8px;
+    }
+
+    .ut-btn-delete-label {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .ut-btn-delete {
+        padding: 0.35rem;
+        border-radius: 6px;
+    }
 }

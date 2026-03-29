@@ -8,14 +8,36 @@ use App\Http\Middleware\RoleMiddleware;
 
 // Login
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/dash', [AuthController::class, 'dash'])->name('dashboard')->middleware('role');
+Route::get('/register', [AuthController::class, 'register'])->middleware('role')->name('register');
+Route::get('/dash', [AuthController::class, 'dash'])->middleware('role')->name('dashboard');
 
+Route::get('/absence', [AccController::class, 'absc'])->name('absence');
 
 
 
 Route::post('/auth/register', [AuthController::class, 'registerPost'])->name('register.post'); 
 Route::post('/auth/login', [AuthController::class, 'loginPost'])->name('login.post'); 
+
+
+
+
+
+
+
+Route::delete('/delete/{id}', [AccController::class, 'delete'])->name('delete');
+
+Route::post('/absence/{email}', [AccController::class, 'toggle'])->name('absence.toggle');
+
+
+
+
+
+
+
+
+
+
+
 
 //
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
