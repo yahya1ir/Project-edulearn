@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
 
+
+use App\Http\Controllers\ScheduleController;
+
 // Login
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->middleware('role')->name('register');
@@ -14,6 +17,7 @@ Route::get('/dash', [AuthController::class, 'dash'])
     ->name('dashboard');
 
 Route::get('/absence', [AccController::class, 'absc'])->name('absence');
+Route::get('/schedule', [AccController::class, 'schedule'])->name('schedule');
 
 
 
@@ -68,3 +72,24 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
 Route::POST('/logout', [AuthController::class, 'login'])->name('logout');
 
 
+
+
+/*
+|--------------------------------------------------------------------------
+| Schedule Routes
+|--------------------------------------------------------------------------
+| Add these two lines inside your routes/web.php file.
+| Both are wrapped in auth middleware so only logged-in users can access them.
+*/
+
+Route::middleware(['auth'])->group(function () {
+
+    // Show the upload form
+    Route::get('/schedules', [ScheduleController::class, 'index'])
+         ->name('schedules.index');
+
+    // Handle PDF upload
+    Route::post('/schedules/upload', [ScheduleController::class, 'upload'])
+         ->name('schedules.upload');
+
+});

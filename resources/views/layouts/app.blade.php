@@ -261,7 +261,7 @@
         </a>
 
         <!-- "Trainings" → "Emploi" with a briefcase/job icon -->
-        <a href="#" class="nav-item">
+        <a href="schedule" class="nav-item">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <rect x="2" y="7" width="20" height="14" rx="2"/>
                 <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
@@ -281,7 +281,7 @@
                 <line x1="23" y1="8" x2="17" y2="14"/>
             </svg>
             Absence
-            <span class="nav-badge">3</span>
+            <span class="nav-badge">{{ $students->count() }}</span>
         </a>
 
         <a href="#" class="nav-item">

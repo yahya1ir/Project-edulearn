@@ -10,7 +10,7 @@ class AccController extends Controller
 { 
       public function absc(){
 
-    $students = presence::all();
+        $students = presence::all();
 
     
          return view('absence',compact('students'));
@@ -35,4 +35,8 @@ public function toggle($email)
   return  redirect('absence');
    
 } 
+public function schedule(){
+    return view('schedule');
+}
+
 }

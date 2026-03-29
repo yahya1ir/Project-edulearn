@@ -15,8 +15,8 @@ class AuthController extends Controller
     //  login  view
     public function dash() {
     $users = User::all();
-
-    return view('Dashboardstudent', compact('users'));
+    $students = presence::all();
+    return view('Dashboardstudent', compact('users', 'students'));
 }
 
 
