@@ -9,7 +9,9 @@ use App\Http\Middleware\RoleMiddleware;
 // Login
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->middleware('role')->name('register');
-Route::get('/dash', [AuthController::class, 'dash'])->middleware('role')->name('dashboard');
+Route::get('/dash', [AuthController::class, 'dash'])
+    ->middleware('role')  
+    ->name('dashboard');
 
 Route::get('/absence', [AccController::class, 'absc'])->name('absence');
 

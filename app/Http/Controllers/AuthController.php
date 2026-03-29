@@ -49,6 +49,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
+        
         return back()->with('error', 'Invalid credentials');
     }
 
@@ -84,8 +85,8 @@ public function registerPost(Request $req)
         ]);
     }
 
-    // Optionally, log the user in after registration
-    Auth::login($user);
+   
+   
 
     return redirect()->route('dashboard')->with('success', 'User created successfully!');
 }
