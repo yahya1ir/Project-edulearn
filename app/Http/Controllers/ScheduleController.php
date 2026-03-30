@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Models\presence;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,8 @@ class ScheduleController extends Controller
      */
     public function index(): View
     {
-        return view('schedule');
+        $students = presence::all();
+        return view('schedule', compact('students'));
     }
 
     /**

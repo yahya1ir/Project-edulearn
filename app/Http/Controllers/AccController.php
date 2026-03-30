@@ -36,7 +36,8 @@ public function toggle($email)
    
 } 
 public function schedule(){
-    return view('schedule');
+    $students = presence::all();
+    return view('schedule', compact('students'));
 }
 
 }
