@@ -26,22 +26,9 @@ Route::post('/auth/login', [AuthController::class, 'loginPost'])->name('login.po
 
 
 
-
-
-
-
 Route::delete('/delete/{id}', [AccController::class, 'delete'])->name('delete');
 
 Route::post('/absence/{email}', [AccController::class, 'toggle'])->name('absence.toggle');
-
-
-
-
-
-
-
-
-
 
 
 
@@ -65,13 +52,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
 });
 
 
-
-
-
-
 Route::POST('/logout', [AuthController::class, 'login'])->name('logout');
-
-
 
 
 /*
@@ -92,4 +73,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/schedules/upload', [ScheduleController::class, 'upload'])
          ->name('schedules.upload');
 
+});
+// just for testing
+Route::get('/test', function () {
+    return view('test');
 });
